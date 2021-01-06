@@ -74,8 +74,8 @@ class Component {
     return this;
   }
 
-  background(value: string): this {
-    this.setStyle("background", value);
+  background(color: string): this {
+    this.setStyle("background", color);
     return this;
   }
 
@@ -172,13 +172,6 @@ class Component {
     }`;
 
     return result;
-  }
-
-  get export(): any {
-    return {
-      html: this.html,
-      css: this.css,
-    };
   }
 }
 
