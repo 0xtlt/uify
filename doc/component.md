@@ -14,8 +14,8 @@
 
 ## List of all pre-built constants :
 
-- [Colors](/doc/components/Colors.md)
-- [Breakpoints](/doc/components/Breakpoints.md)
+- [Colors](/doc/constants/Colors.md)
+- [Breakpoints](/doc/constants/Breakpoints.md)
 
 ## Component prototypes :
 
