@@ -1,6 +1,7 @@
+import { Children } from "../types/Children.ts";
 import Component from "./component.ts";
 
-function VStack(...childrens: Component[]): Component {
+function VStack(...childrens: Children[]): Component {
   return new Component("div", ...childrens);
 }
 

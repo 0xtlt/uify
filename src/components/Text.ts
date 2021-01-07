@@ -1,3 +1,4 @@
+import { Children } from "../types/Children.ts";
 import Component from "./component.ts";
 
 class TextComponent extends Component {
@@ -12,7 +13,7 @@ class TextComponent extends Component {
   }
 }
 
-function Text(content: string, ...childrens: Component[]): TextComponent {
+function Text(content: string, ...childrens: Children[]): TextComponent {
   return new TextComponent("p", ...childrens).setHTML(content);
 }
 

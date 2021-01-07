@@ -1,4 +1,4 @@
-# Component ❄️
+# Component 🔥
 
 ## List of all pre-built components :
 

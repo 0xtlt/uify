@@ -1,4 +1,6 @@
+import { Extension } from "../../mod.ts";
 import CSSValue from "../functions/CSSValue.ts";
+import { Children } from "../types/Children.ts";
 import { Size } from "../types/Size.ts";
 
 const AUTOCLOSURE: string[] = ["img", "br"];
@@ -20,13 +22,13 @@ function create_UUID(): string {
 class Component {
   private stylesheet: { [key: string]: { [key: string]: string } };
   private attributes: { [key: string]: string };
-  private childrens: Component[];
+  private childrens: Children[];
   private type: string;
   private className: string;
   private HTML: string;
   private actualBreakpoint: string;
 
-  constructor(type: string, ...childrens: Component[]) {
+  constructor(type: string, ...childrens: (Component | Extension)[]) {
     this.stylesheet = {};
     this.attributes = {};
     this.childrens = childrens;

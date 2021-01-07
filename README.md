@@ -133,7 +133,14 @@ By the way, the Component class has many prototypes that will allow you to custo
 
 [Component documentation](/doc/component.md)
 
-## Default project organization
+## Make an extension
+
+Maybe you want to use UIFY with your favorite CMS like Shopify with its own backend language (Liquid).
+With UIFY you can easily create an extension for it
+
+[Extension documentation](/doc/extension.md)
+
+## Default project organization (soon)
 
 ```
 project folder/

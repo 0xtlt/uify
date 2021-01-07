@@ -1,5 +1,6 @@
 import arrayGenerator from "../functions/arrayGenerator.ts";
 import CSSValue from "../functions/CSSValue.ts";
+import { Children } from "../types/Children.ts";
 import { Size } from "../types/Size.ts";
 import Component from "./component.ts";
 
@@ -10,7 +11,7 @@ type GridParams = {
   gapVertical?: Size;
 };
 
-function Grid(params: GridParams, ...childrens: Component[]): Component {
+function Grid(params: GridParams, ...childrens: Children[]): Component {
   const grid = new Component("div", ...childrens);
   grid.setStyle("display", "grid");
 
