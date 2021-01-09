@@ -123,6 +123,23 @@ new Component("div").breakpoint(
 );
 ```
 
+selector :
+
+```ts
+new Component("div").selector(
+  value: string | number,
+  callbacks: (component: this) => any,
+);
+
+// ex :
+new Component("div").selector(
+  "focus",
+  (focused) => {
+      focused.background("blue");
+  }
+);
+```
+
 CSS (return generated CSS) :
 
 ```ts

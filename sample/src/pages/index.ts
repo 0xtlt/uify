@@ -8,7 +8,14 @@ export default Grid(
     gapVertical: 10,
   },
   HStack(
-    Text("This is a text").color(COLORS.Red),
+    Text("This is a text")
+      .color(COLORS.Red)
+      .selector(
+        "focus",
+        ((focused) => {
+          focused.color(COLORS.Green);
+        }),
+      ),
   ),
   Img(
     "https://source.unsplash.com/random/800x600",

@@ -20,13 +20,16 @@ function create_UUID(): string {
 }
 
 class Component {
-  private stylesheet: { [key: string]: { [key: string]: string } };
+  private stylesheet: {
+    [key: string]: { [key: string]: { [key: string]: string } };
+  };
   private attributes: { [key: string]: string };
   private childrens: Children[];
   private type: string;
   private className: string;
   private HTML: string;
   private actualBreakpoint: string;
+  private actualSelector: string;
 
   constructor(type: string, ...childrens: (Component | Extension)[]) {
     this.stylesheet = {};
@@ -36,6 +39,7 @@ class Component {
     this.className = "c_" + create_UUID();
     this.HTML = "";
     this.actualBreakpoint = "default";
+    this.actualSelector = "";
   }
 
   align(alignment: "center"): this {
@@ -96,8 +100,11 @@ class Component {
     if (!this.stylesheet[this.actualBreakpoint]) {
       this.stylesheet[this.actualBreakpoint] = {};
     }
+    if (!this.stylesheet[this.actualBreakpoint][this.actualSelector]) {
+      this.stylesheet[this.actualBreakpoint][this.actualSelector] = {};
+    }
 
-    this.stylesheet[this.actualBreakpoint][key] = value;
+    this.stylesheet[this.actualBreakpoint][this.actualSelector][key] = value;
     return this;
   }
 
@@ -118,26 +125,33 @@ class Component {
     return this;
   }
 
+  selector(value: string, callbacks: (component: this) => any): this {
+    this.actualSelector = value;
+    callbacks(this);
+    this.actualSelector = "";
+    return this;
+  }
+
   get cssFormat(): string {
     return Object.entries(this.stylesheet).map((stylesheet) => {
       if (stylesheet[0] === "default") {
-        return `.${this.className}{${
-          Object.entries(stylesheet[1]).map((value) =>
-            `${value[0]}:${value[1]};`
-          ).join(
-            "",
-          )
-        }}`;
+        return Object.entries(stylesheet[1]).map((selector) => {
+          return "." + this.className +
+            (selector[0].length ? ":" + selector[0] : "") + "{" +
+            Object.entries(selector[1]).map((style) => {
+              return style[0] + ":" + style[1] + ";";
+            }).join("") + "}";
+        }).join("");
       } else {
-        return `@media screen and (max-width:${
-          stylesheet[0]
-        }){.${this.className}{${
-          Object.entries(stylesheet[1]).map((value) =>
-            `${value[0]}:${value[1]};`
-          ).join(
-            "",
-          )
-        }}}`;
+        return "@media screen and (max-width:" + stylesheet[0] + "){" +
+          Object.entries(stylesheet[1]).map((selector) => {
+            return "." + this.className +
+              (selector[0].length ? ":" + selector[0] : "") + "{" +
+              Object.entries(selector[1]).map((style) => {
+                return style[0] + ":" + style[1] + ";";
+              }).join("") + "}";
+          }).join("") +
+          "}";
       }
     }).join(
       "",
