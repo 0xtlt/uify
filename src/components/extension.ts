@@ -21,6 +21,10 @@ class Extension {
 
     return result;
   }
+
+  get js(): string {
+    return this.childrens.map((child) => child.js).join(" ");
+  }
 }
 
 export default Extension;

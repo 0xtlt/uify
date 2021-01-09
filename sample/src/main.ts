@@ -3,7 +3,10 @@ import exportFile from "../../src/components/exportFile.ts";
 
 await exportFile({
   distHtmlPath: join(import.meta.url, "../../dist").replace("file:", ""),
-  distJsPath: join(import.meta.url, "../../dist").replace("file:", ""),
+  distJsPath: join(import.meta.url, "../../dist", "bundle.js").replace(
+    "file:",
+    "",
+  ),
   distCssPath: join(import.meta.url, "../../dist").replace("file:", ""),
   oneCssFilePath: join(import.meta.url, "../../dist", "bundle.css").replace(
     "file:",

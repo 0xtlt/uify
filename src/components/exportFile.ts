@@ -20,11 +20,13 @@ async function exportFile(
   }
 
   let styles = "";
+  let javascripts = "";
 
   const promises: Promise<void>[] = files.map((filePath) =>
     new Promise(async (resolve, reject) => {
       const file = await import(filePath);
       styles += file.default.css;
+      javascripts += file.default.js;
 
       await Deno.writeTextFile(
         join(
@@ -62,6 +64,11 @@ async function exportFile(
       styles,
     );
   }
+
+  await Deno.writeTextFile(
+    params.distJsPath,
+    javascripts,
+  );
 }
 
 export default exportFile;

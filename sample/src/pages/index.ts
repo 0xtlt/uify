@@ -15,7 +15,11 @@ export default Grid(
         ((focused) => {
           focused.color(COLORS.Green);
         }),
-      ),
+      )
+      .id("hey")
+      .onClick((element, event) => {
+        console.log(element, event);
+      }),
   ),
   Img(
     "https://source.unsplash.com/random/800x600",

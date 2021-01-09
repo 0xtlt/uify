@@ -30,6 +30,8 @@ class Component {
   private HTML: string;
   private actualBreakpoint: string;
   private actualSelector: string;
+  private javascript: { [key: string]: string[] };
+  private ID: string;
 
   constructor(type: string, ...childrens: (Component | Extension)[]) {
     this.stylesheet = {};
@@ -40,6 +42,13 @@ class Component {
     this.HTML = "";
     this.actualBreakpoint = "default";
     this.actualSelector = "";
+    this.javascript = {};
+    this.ID = "";
+  }
+
+  id(id: string): this {
+    this.ID = id;
+    return this;
   }
 
   align(alignment: "center"): this {
@@ -108,6 +117,25 @@ class Component {
     return this;
   }
 
+  addJS(
+    type: string,
+    func: (element: any, event: any) => any | Promise<any>,
+  ): this {
+    if (!this.javascript[type]) {
+      this.javascript[type] = [];
+    }
+    this.javascript[type].push(func.toString());
+    return this;
+  }
+
+  onLoad(callback: (element: any, event: any) => any | Promise<any>): this {
+    return this.addJS("DOMContentLoaded", callback);
+  }
+
+  onClick(callback: (element: any, event: any) => any | Promise<any>): this {
+    return this.addJS("click", callback);
+  }
+
   setHTML(content: string): this {
     this.HTML = content;
     return this;
@@ -170,6 +198,8 @@ class Component {
 
   get html(): string {
     let result = `<${this.type}${
+      this.ID.length ? ' id="' + this.ID + '"' : ""
+    }${
       Object.keys(this.attributes).length
         ? ` ${
           Object.entries(this.attributes).map((value) =>
@@ -188,6 +218,18 @@ class Component {
     }`;
 
     return result;
+  }
+
+  get js(): string {
+    return Object.entries(this.javascript).map((entry) => {
+      return 'document.querySelector(".' + this.className +
+        '").addEventListener("' + entry[0] + '", function(event) {' +
+        entry[1].map((func) => {
+          return "(" + func + ')(document.querySelector(".' + this.className +
+            '"), event);';
+        }).join("") +
+        "})";
+    }).join(" ") + this.childrens.map((child) => child.js).join(" ");
   }
 }
 
